@@ -24,7 +24,7 @@ module Keycloak.Users where
 
 import           Control.Monad.IO.Class
 import           Data.Aeson as JSON
-import           Data.Text as T hiding (head, tail, map)
+import           Data.Text as T hiding (head, tail, map, show)
 import           Data.String.Conversions
 import           Keycloak.Types
 import           Keycloak.Utils as U

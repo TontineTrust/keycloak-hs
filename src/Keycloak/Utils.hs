@@ -9,7 +9,7 @@ import           Control.Lens hiding ((.=))
 import           Control.Monad.Reader as R
 import qualified Control.Monad.Catch as C
 import           Control.Monad.Except (throwError, catchError, MonadError)
-import           Data.Text as T hiding (head, tail, map)
+import           Data.Text as T hiding (head, tail, map, show)
 import           Data.Maybe
 import           Data.List as L
 import           Data.String.Conversions

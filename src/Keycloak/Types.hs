@@ -13,7 +13,7 @@ import           Data.Aeson
 import           Data.Aeson.Key
 import           Data.Aeson.Casing
 import           Data.Hashable
-import           Data.Text hiding (head, tail, map, toLower, drop)
+import           Data.Text hiding (head, tail, map, toLower, drop, show)
 import           Data.String.Conversions
 import           Data.Maybe
 import           Data.Map hiding (drop, map)

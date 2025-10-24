@@ -44,7 +44,7 @@ import           Control.Monad.Time (MonadTime)
 import           Crypto.JWT as JWT
 import           Data.Aeson as JSON
 import           Data.Aeson.Lens
-import           Data.Text as T hiding (head, tail, map)
+import           Data.Text as T hiding (head, tail, map, show)
 import           Data.Maybe
 import           Data.String.Conversions
 import           Keycloak.Types
@@ -94,11 +94,13 @@ getClientJWT = do
       kcError $ ParseError $ pack (show err2)
 
 
--- | Verify a JWT. If sucessful, the claims are returned. Otherwise, a JWTError is thrown. 
+-- | Verify a JWT. If sucessful, the claims are returned. Otherwise, a JWTError is thrown.
 verifyJWT :: (MonadTime m, MonadIO m) => JWT -> KeycloakT m ClaimsSet
 verifyJWT jwt = do
   jwks <- viewConfig confJWKs
-  KeycloakT $ verifyClaims (defaultJWTValidationSettings (const True)) (head jwks) jwt
+  case jwks of
+    [] -> kcError $ ParseError "No JWKs available for JWT verification"
+    (jwk:_) -> KeycloakT $ verifyClaims (defaultJWTValidationSettings (const True)) jwk jwt
 
 -- | Extract the user identity from a token. Additional attributes can be encoded in the token.
 getClaimsUser :: ClaimsSet -> User

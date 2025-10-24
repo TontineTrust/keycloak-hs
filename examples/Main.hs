@@ -50,7 +50,7 @@ main = do
            resOwner   = Owner Nothing (Just "demo"),
            resOwnerManagedAccess = False,
            resAttributes = []}
-    resId <- createResource res clientToken  
+    createdResId <- createResource res clientToken  
   
     liftIO $ putStrLn "Getting User token"
   
@@ -58,7 +58,7 @@ main = do
     userToken <- getJWT "demo" "demo"
   
     -- * Can I access this resource?
-    isAuth <- isAuthorized resId (ScopeName "view") userToken
+    isAuth <- isAuthorized createdResId (ScopeName "view") userToken
   
     liftIO $ putStrLn $ "User 'demo' can access resource 'demo': " ++ (show isAuth)
   
@@ -68,7 +68,7 @@ main = do
     --liftIO $ putStrLn $ "All permissions: " ++ (show perms)
   
     --resources can be deleted
-    --deleteResource resId clientToken
+    --deleteResource createdResId clientToken
 
     users <- getUsers Nothing Nothing Nothing jwt
     liftIO $ putStrLn $ "All Users: " ++ (show users)

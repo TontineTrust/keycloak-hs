@@ -1,9 +1,0 @@
-resolver: lts-21.11
-extra-deps:
-packages:
-- .
-
-nix:
-  pure: true
-  enable: true
-  packages: [ zlib ]

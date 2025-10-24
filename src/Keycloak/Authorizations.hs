@@ -27,9 +27,10 @@
 
 module Keycloak.Authorizations where
 
+import           Control.Monad (join, void)
 import           Control.Monad.Reader as R
 import           Data.Aeson as JSON
-import           Data.Text as T hiding (head, tail, map)
+import           Data.Text as T hiding (head, tail, map, show)
 import           Data.Either
 import           Data.List as L
 import           Data.String.Conversions
