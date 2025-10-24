@@ -12,24 +12,24 @@ on:
 jobs:
   linux:
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
         versions:
-          - ghc: '8.6.5'
-            cabal: '3.4'
-          - ghc: '8.8.4'
-            cabal: '3.4'
-          - ghc: '8.10.5'
-            cabal: '3.4'
+          - ghc: '9.10.3'
+            cabal: '3.14'
+          - ghc: '9.8.4'
+            cabal: '3.14'
+          - ghc: '9.6.7'
+            cabal: '3.14'
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     # need to install older cabal/ghc versions from ppa repository
 
     - name: Install recent cabal/ghc
-      uses: haskell/actions/setup@v1
+      uses: haskell-actions/setup@v2
       with:
         ghc-version: ${{ matrix.versions.ghc }}
         cabal-version: ${{ matrix.versions.cabal }}
@@ -40,7 +40,7 @@ jobs:
 
     - name: Cache cabal global package db
       id:   cabal-global
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: |
           ~/.cabal
@@ -48,7 +48,7 @@ jobs:
 
     - name: Cache cabal work
       id:   cabal-local
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: |
           dist-newstyle
