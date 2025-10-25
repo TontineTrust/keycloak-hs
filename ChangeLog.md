@@ -1,5 +1,12 @@
 # Changelog for keycloak-hs
 
+## 3.1.1.0 - 2025-10-25
+
+### Changed
+- Optimized `ClientCredentials` from `data` to `newtype` for better performance
+- Added `deriving newtype` for `KeycloakT` with explicit typeclass instances (Monad, Applicative, Functor, MonadIO, MonadTime, MonadError)
+- Added `MonadTrans` instance for `KeycloakT`
+
 ## 3.1.0.0 - 2025-10-24
 
 ### Added

@@ -19,7 +19,7 @@ import           Data.Maybe
 import           Data.Map hiding (drop, map)
 import qualified Data.HashMap.Strict as HM
 import           Data.Char
-import           Control.Monad.Except (ExceptT, runExceptT)
+import           Control.Monad.Except (ExceptT, MonadError, runExceptT)
 import           Control.Monad.Reader as R
 import           Control.Monad.Time (MonadTime)
 import           Control.Lens hiding ((.=))
@@ -38,7 +38,7 @@ type JWT = SignedJWT
 type Keycloak a = KeycloakT IO a
 
 newtype KeycloakT m a = KeycloakT { unKeycloakT :: ReaderT KCConfig (ExceptT KCError m) a }
-    deriving newtype (Monad, Applicative, Functor, MonadIO, MonadTime)
+    deriving newtype (Monad, Applicative, Functor, MonadIO, MonadTime, MonadError KCError)
 
 instance MonadTrans KeycloakT where
     lift = KeycloakT . lift . lift
@@ -82,7 +82,7 @@ instance ToJSON AdapterConfig where
 instance FromJSON AdapterConfig where
   parseJSON = genericParseJSON $ trainDrop 5
 
-data ClientCredentials = ClientCredentials {
+newtype ClientCredentials = ClientCredentials {
   _confSecret :: Text}
   deriving stock (Eq, Show, Generic)
 
