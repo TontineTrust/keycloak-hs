@@ -142,9 +142,10 @@ verifyJWT jwt = do
   jwks <- viewConfig confJWKs
   case jwks of
     [] -> kcError $ ParseError "No JWKs available for JWT verification"
-    (jwk : _) -> KeycloakT $ do
+    keys -> KeycloakT $ do
       -- Verify JWT and get standard claims
-      stdClaims :: ClaimsSet <- verifyClaims (defaultJWTValidationSettings (const True)) jwk jwt
+      -- Use JWKSet so jose library can try each key until one works
+      stdClaims :: ClaimsSet <- verifyClaims (defaultJWTValidationSettings (const True)) (JWKSet keys) jwt
       -- Re-parse the ClaimsSet as JSON to get KeycloakClaims
       case fromJSON (toJSON stdClaims) of
         Success (keycloakClaims :: KeycloakClaims) -> return keycloakClaims
